@@ -1,0 +1,34 @@
+<html>
+    <head>
+
+    </head>
+    <body>
+        <a href="/users/find/<%= session[:userid] %>">Dashboard</a> <a href="/logout">Logout</a>
+        <div>
+            <h3><%= @org.name%></h3>
+            <p><%= @org.description%></p>
+        </div>
+            <% if !@members_ids.include? session[:userid] %>
+                <a href="/org/join/<%= @org.id %>"><button>Join Group</button></a>
+            <% else %>
+                <a href="/org/unjoin/<%= @org.id %>"><button>Leave Group</button></a>
+
+            <% end %>
+        <div>
+
+        </div>
+
+        <div>
+            <h3>Created by: </h3>
+                <% if @owner.id == session[:userid] %>
+                <h3>You</h3>
+                <% else %>
+               <h3> <%= @owner.first_name %> <%= @owner.last_name %></h3>
+                <% end %>
+            <h3>Members:</h3>
+            <% @members.each do |i|%>
+            <p><%= i.first_name%> <%= i.last_name%></p>
+            <% end %>
+        </div>
+    </body>
+</html>

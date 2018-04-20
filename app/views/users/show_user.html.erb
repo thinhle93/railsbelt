@@ -1,0 +1,51 @@
+<html>
+    <head></head>
+    <body>
+
+       
+
+        <div class="wrapper">
+                <div class="top">
+                        <a href="/logout">Logout</a>
+                </div>
+                <div class="userpage">
+                        <h3>Hi <%= @user.first_name%> <%= @user.last_name%>!</h3>
+            
+                        <p>Here are the organizations you may join:</p>
+            
+                        <% @organizations.each do |i|%>
+                            <a href="/org/find/<%=i.id%>"><h3><%= i.name %></h3></a>
+                            <p>Members: <%= i.attendance.length %>
+                                <% unless !@userorgs.include? i.id %>
+                                    <a href="/org/delete/<%= i.id%>">Delete</a>
+                                <% end %>
+                            </p>
+                            <p><%= i.description %></p>
+                        <%end%>
+                    </div>
+            
+                    <div class="userpage">
+            
+                        <form action="/organization/create" method="post">
+                            <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+                            <label>Org Name:</label><input type="text" name="org[name]"><br>
+                            <label>Description</label><textarea name="org[description]"></textarea><br>
+                            <input type="hidden" name="org[user_id]" value="<%= session[:userid] %>">
+                            <input type="submit" value="Create">
+                        </form>
+                        <% if flash[:errors]%>
+                    <% flash[:errors].each do |err|%>
+                    <p><%= err%></p>
+                    <%end%>
+                    <%end%>
+                    </div>
+                    
+            
+                    
+
+        </div>
+        
+        
+                
+    </body>
+</html>
